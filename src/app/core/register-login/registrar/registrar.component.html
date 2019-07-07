@@ -1,0 +1,49 @@
+<div class="container">
+
+        <form [formGroup]="registrarForm">
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Senha</label>
+                    <input formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Senha">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Confirmar a Senha</label>
+                    <input formControlName="passwordConfirm" type="password" class="form-control" id="inputPasswordRepeat" placeholder="Senha">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputCEP">CEP</label>
+                    <input (blur)="consultarCep($event.target.value)" formControlName="cep" type="text" class="form-control" id="inputCEP" placeholder="Cep da rua">
+                </div>
+                <div class="form-group col-md-3">
+                <label for="inputNumero">Numero</label>
+                <input formControlName="numero" type="text" class="form-control" id="inputAddress" placeholder="Numero da casa">
+                </div>
+                <div class="form-group col-md-6">
+                <label for="inputComplemento">Complemento</label>
+                <input formControlName="complemento" type="text" class="form-control" id="inputAddress2" placeholder="Apartamento, hotel, casa, etc.">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputRua">Rua</label>
+                    <input formControlName="rua" type="text" class="form-control" id="inputRua" placeholder="Endereço">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputCidade">Cidade</label>
+                    <input formControlName="cidade" type="text" class="form-control" id="inputCidade" placeholder="Cidade">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputEstado">Estado</label>
+                    <input formControlName="estado" type="text" class="form-control" id="inputEstado" placeholder="Estado">
+                </div>
+            </div>
+            <button (submit)="cadastrar()" class="btn btn-primary">Registrar</button>
+        </form>
+    
+    </div>
