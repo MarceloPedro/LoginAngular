@@ -1,0 +1,28 @@
+<div class="container mt-4">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Email</th>
+            <th scope="col">Cep</th>
+            <th scope="col">Rua</th>
+            <th scope="col">Numero</th>
+            <th scope="col">Cidade</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of tabelaDeUsuariosCadastrados">
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.cep }}</td>
+            <td>{{ usuario.rua }}</td>
+            <td>{{ usuario.numero }}</td>
+            <td>{{ usuario.cidade }}</td>
+            <td>{{ usuario.estado }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+</div>

@@ -3,16 +3,21 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { RegistrarComponent } from './registrar/registrar.component';
-import { LoginComponent } from './login/login.component';
+import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { UsuarioListModule } from '../usuario-list/usuario-list.module';
 
 @NgModule({
   declarations: [
-    RegistrarComponent,
-    LoginComponent
+    RegistrarComponent
+   
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule,
+    RouterModule,
+    UsuarioListModule
   ]
 })
 export class RegisterLoginModule { }

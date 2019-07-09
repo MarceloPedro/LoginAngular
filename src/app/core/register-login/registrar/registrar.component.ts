@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 import { ConsultaCepService } from '../../shared/consulta-cep/consulta-cep.service';
-import { cep } from '../../shared/consulta-cep/cep';
+import { cep } from '../../model/cep';
+import { camposIguaisValidator } from '../../shared/validators/campos-iguais.validator';
+import { Usuario } from '../../model/usuario';
+
 
 @Component({
   selector: 'app-registrar',
@@ -12,6 +15,9 @@ import { cep } from '../../shared/consulta-cep/cep';
 export class RegistrarComponent implements OnInit {
 
   registrarForm: FormGroup;
+  msgCadastro: string;
+  novoUsuario: Usuario;
+  tabelaDeUsuarios: Usuario[] = [];
 
   constructor(
     private consultaCepService: ConsultaCepService,
@@ -20,28 +26,38 @@ export class RegistrarComponent implements OnInit {
 
   ngOnInit() {
    this.registrarForm = this.formBuilder.group({
-     email:[''],
-     password:[''],
-     passwordConfirm:[''],
-     cep:[''],
-     numero:[''],
+     email:['', [Validators.required, Validators.email]],
+     nome:['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
+
+     senhaGroup: this.formBuilder.group({
+      password:['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
+      passwordConfirm:['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
+     }, {validator: camposIguaisValidator}),
+     
+     cep:['', [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern(/\d/g)]],
+     numero:['', [Validators.required, Validators.minLength(1), Validators.pattern(/\d/g)]],
      complemento:[''],
-     rua:[''],
-     cidade:[''],
-     estado:[''],
+     rua:['', Validators.required],
+     cidade:['', Validators.required],
+     estado:['', Validators.required],
    })
   }
 
   consultarCep(cep){
-    var cep = cep.replace(/\D/g, '');
+    var cep= cep.replace(/\D/g, '');
     
     if (cep != "") {
       var validacep = /^[0-9]{8}$/;
 
       if(validacep.test(cep)) 
-        this.consultaCepService.consultaCep(cep).subscribe(dados => 
-            this.popularRegistrarForm(dados, this.registrarForm)
-          )
+        this.consultaCepService.consultaCep(cep).subscribe(dados => {
+          if (!("erro" in dados)) {
+            this.popularRegistrarForm(dados, this.registrarForm) 
+          }else{
+            this.registrarForm.get('cep').setErrors({'cepNaoEncontrado': true})
+            
+          }
+          })
       }
   }
 
@@ -55,5 +71,22 @@ export class RegistrarComponent implements OnInit {
     })
   }
 
+  verificarValidTouched(campo){
+    return !this.registrarForm.get(campo).valid && this.registrarForm.get(campo).touched;
+  }
+
+  resetar(){
+    this.registrarForm.reset();
+    
+  }
+
+  cadUsuario(){
+    if(this.registrarForm.valid){
+      this.novoUsuario = this.registrarForm.getRawValue() as Usuario
+      this.tabelaDeUsuarios.push(this.novoUsuario);
+      this.resetar();
+      this.msgCadastro = "Cadastro realizado com sucesso!";
+    }    
+  }
 
 }

@@ -1,28 +1,45 @@
 <div class="container">
+    <h1 class="h1 mb-2 mt-2">Cadastro de Novos Usuários</h1>
 
-        <form [formGroup]="registrarForm">
-            <div class="form-group">
-                <label for="inputEmail">Email</label>
-                <input formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
-            </div>
+        <form [formGroup]="registrarForm" (submit)="cadUsuario()">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">Senha</label>
-                    <input formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Senha">
+                    <label for="inputNome">Nome</label>
+                    <input  formControlName="nome" type="text" class="form-control" id="inputNome" placeholder="Nome do Usuario" autofocus>
+                    <app-alert-msg-form msgErro="Nome é obrigatório, minimo de 2 e maximo 40 characteres." [mostrarErro]="verificarValidTouched('nome')"></app-alert-msg-form>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">Confirmar a Senha</label>
-                    <input formControlName="passwordConfirm" type="password" class="form-control" id="inputPasswordRepeat" placeholder="Senha">
+                    <label for="inputEmail">Email</label>
+                    <input  formControlName="email" type="email" class="form-control" id="inputEmail" placeholder="Email" autofocus>
+                    <app-alert-msg-form msgErro="Email inválido." [mostrarErro]="verificarValidTouched('email')"></app-alert-msg-form>
                 </div>
             </div>
+
+            <div formGroupName="senhaGroup">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Senha</label>
+                        <input formControlName="password" type="password" class="form-control" id="inputPassword" placeholder="Senha">
+                        <app-alert-msg-form msgErro="Senha deve ter no minimo 4 e máximo 12 characteres." [mostrarErro]="verificarValidTouched('senhaGroup.password')"></app-alert-msg-form>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Confirmar a Senha</label>
+                        <input formControlName="passwordConfirm" type="password" class="form-control" id="inputPasswordRepeat" placeholder="Senha">
+                        <app-alert-msg-form msgErro="As senhas devem ser iguais." [mostrarErro]="verificarValidTouched('senhaGroup')"></app-alert-msg-form>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="inputCEP">CEP</label>
                     <input (blur)="consultarCep($event.target.value)" formControlName="cep" type="text" class="form-control" id="inputCEP" placeholder="Cep da rua">
+                    <app-alert-msg-form msgErro="Cep inválido, apenas numeros, ex: 60800400." [mostrarErro]="verificarValidTouched('cep')"></app-alert-msg-form>
                 </div>
                 <div class="form-group col-md-3">
                 <label for="inputNumero">Numero</label>
                 <input formControlName="numero" type="text" class="form-control" id="inputAddress" placeholder="Numero da casa">
+                <app-alert-msg-form msgErro="Numero é obrigatório."  [mostrarErro]="verificarValidTouched('numero')"></app-alert-msg-form>
                 </div>
                 <div class="form-group col-md-6">
                 <label for="inputComplemento">Complemento</label>
@@ -33,17 +50,25 @@
                 <div class="form-group col-md-6">
                     <label for="inputRua">Rua</label>
                     <input formControlName="rua" type="text" class="form-control" id="inputRua" placeholder="Endereço">
+                    <app-alert-msg-form msgErro="Rua é obrigatório." [mostrarErro]="verificarValidTouched('rua')"></app-alert-msg-form>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputCidade">Cidade</label>
                     <input formControlName="cidade" type="text" class="form-control" id="inputCidade" placeholder="Cidade">
+                    <app-alert-msg-form msgErro="Cidade é obrigatório." [mostrarErro]="verificarValidTouched('cidade')"></app-alert-msg-form>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputEstado">Estado</label>
                     <input formControlName="estado" type="text" class="form-control" id="inputEstado" placeholder="Estado">
+                    <app-alert-msg-form msgErro="Estado é obrigatório." [mostrarErro]="verificarValidTouched('estado')"></app-alert-msg-form>
                 </div>
             </div>
-            <button (submit)="cadastrar()" class="btn btn-primary">Registrar</button>
+            <app-success-msg-form [msgSucesso]="msgCadastro" [mostrarMsgSucesso]="msgCadastro" ></app-success-msg-form>
+            <button [disabled]="!registrarForm.valid" type="submit"  class="btn btn-primary">Registrar</button>
+            <button (click)="resetar()" class="btn btn-danger ml-4">Cancelar</button>
         </form>
-    
+
     </div>
+
+
+    <app-usuario-list [tabelaDeUsuariosCadastrados]="tabelaDeUsuarios" ></app-usuario-list>

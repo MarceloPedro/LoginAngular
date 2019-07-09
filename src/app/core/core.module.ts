@@ -6,9 +6,11 @@ import { RouterModule } from '@angular/router';
 import { RegisterLoginModule } from './register-login/register-login.module';
 
 
+
 @NgModule({
   declarations: [
     HeaderComponent,
+   
   ],
   imports: [
     CommonModule,
@@ -17,6 +19,7 @@ import { RegisterLoginModule } from './register-login/register-login.module';
   ],
   exports: [
     HeaderComponent,
+
   ]
 })
 export class CoreModule { }
